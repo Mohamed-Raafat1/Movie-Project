@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
-import {
-  FlatList,
-  SafeAreaView,
-  ActivityIndicator,
-  StatusBar,
-} from "react-native";
+import { ActivityIndicator, FlatList, View, Text } from "react-native";
+import { Appbar, Divider } from "react-native-paper";
 import MovieCard from "./components/MovieCard";
 
 export default function App() {
   const [Loading, setLoading] = useState(false);
+
   const [Movies, setMovies] = useState([]);
   const [AlreadyFetching, setAlreadyFetching] = useState(false);
+  console.log(AlreadyFetching);
   const [Page, setPage] = useState(1);
   console.log(Page);
   useEffect(() => {
@@ -23,6 +21,7 @@ export default function App() {
   }, [, Page]);
 
   async function fetchMoviesJSON() {
+    console.log(AlreadyFetching);
     if (!AlreadyFetching) {
       await setAlreadyFetching(true);
       const response = await fetch(
@@ -35,13 +34,27 @@ export default function App() {
     } else return [];
   }
   const handleEndReached = async () => {
-    if (!AlreadyFetching) await setPage((Page) => Page + 1);
+    console.log(AlreadyFetching);
+    if (!AlreadyFetching) await setPage(Page + 1);
   };
 
   return (
-    <SafeAreaView>
+    <View style={{ flex: 1 }}>
+      <Appbar.Header
+        style={{
+          backgroundColor: "#ededed",
+          borderBottomColor: "#969696",
+          borderBottomWidth: 1,
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+      >
+        <Text style={{ fontSize: 20, fontWeight: "bold" }}>Home</Text>
+        <Text style={{ fontSize: 13 }}>Trending</Text>
+      </Appbar.Header>
       <FlatList
-        onEndReachedThreshold={0}
+        style={{ flex: 1 }}
+        onEndReachedThreshold={0.2}
         onEndReached={handleEndReached}
         data={Movies}
         extraData={Loading}
@@ -53,7 +66,6 @@ export default function App() {
         }
         renderItem={({ item }) => <MovieCard movie={{ ...item }}></MovieCard>}
       ></FlatList>
-      <StatusBar barStyle="default"></StatusBar>
-    </SafeAreaView>
+    </View>
   );
 }

@@ -22,32 +22,12 @@ const MovieCard = ({ movie }) => {
           }}
         />
         <Card.Content>
-          <Text
-            style={{ fontSize: 20, fontWeight: "bold" }}
-            // style={theme === "light" ? styles.title_light : styles.title_dark}
-          >
-            {/* {news.title} */}
+          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
             {movie.title}
           </Text>
-          <Text
-          // style={theme === "light" ? styles.text_light : styles.text_dark}
-          // numberOfLines={3}
-          >
-            {/* {news.content} */}
-            {movie.overview}
-          </Text>
+          <Text> {movie.release_date}</Text>
+          <Text numberOfLines={4}>{movie.overview}</Text>
         </Card.Content>
-        <Card.Actions>
-          {/* <Button style={{ alignSelf: "flex-end" }}>
-            <Text>Fart</Text>
-          </Button>
-          <Button
-            mode={"contained"}
-            style={{ alignSelf: "flex-end", marginLeft: 5 }}
-          >
-            <Text>aha</Text>
-          </Button> */}
-        </Card.Actions>
       </Card>
       <Divider></Divider>
     </View>
