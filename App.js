@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, View, Text } from "react-native";
-import { Appbar, Divider } from "react-native-paper";
+import { ActivityIndicator, FlatList, Text, View } from "react-native";
+import { Appbar } from "react-native-paper";
 import MovieCard from "./components/MovieCard";
 
 export default function App() {
+  //Loading constant
   const [Loading, setLoading] = useState(false);
 
   const [Movies, setMovies] = useState([]);
+  //to handle race conditions, only allow fetching once you reach the bottom
   const [AlreadyFetching, setAlreadyFetching] = useState(false);
-  console.log(AlreadyFetching);
+
   const [Page, setPage] = useState(1);
-  console.log(Page);
+  //Fetch movies on component mount and update movies on page increase
   useEffect(() => {
     setLoading(true);
     fetchMoviesJSON().then((movies) => {
@@ -21,7 +23,7 @@ export default function App() {
   }, [, Page]);
 
   async function fetchMoviesJSON() {
-    console.log(AlreadyFetching);
+    //only fetch movies if not currently fetching
     if (!AlreadyFetching) {
       await setAlreadyFetching(true);
       const response = await fetch(
@@ -33,8 +35,9 @@ export default function App() {
       return movies.results;
     } else return [];
   }
+  //Handle end of list reached
+  //just increase the page count and the use effect will run
   const handleEndReached = async () => {
-    console.log(AlreadyFetching);
     if (!AlreadyFetching) await setPage(Page + 1);
   };
 
@@ -57,7 +60,7 @@ export default function App() {
         onEndReachedThreshold={0.2}
         onEndReached={handleEndReached}
         data={Movies}
-        extraData={Loading}
+        extraData={Movies}
         keyExtractor={(movie) => movie.id}
         ListFooterComponent={() =>
           Loading ? null : (

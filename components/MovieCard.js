@@ -1,7 +1,6 @@
 import * as React from "react";
-import { View, Share, StyleSheet, Text } from "react-native";
-import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
-import { Divider } from "react-native-paper";
+import { Text, View } from "react-native";
+import { Card, Divider } from "react-native-paper";
 const MovieCard = ({ movie }) => {
   return (
     <View>
@@ -25,7 +24,9 @@ const MovieCard = ({ movie }) => {
           <Text style={{ fontSize: 20, fontWeight: "bold" }}>
             {movie.title}
           </Text>
-          <Text> {movie.release_date}</Text>
+          <Text style={{ marginLeft: 0, color: "#424242" }}>
+            {movie.release_date}
+          </Text>
           <Text numberOfLines={4}>{movie.overview}</Text>
         </Card.Content>
       </Card>
